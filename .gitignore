@@ -1,5 +1,5 @@
-# Created by https://www.toptal.com/developers/gitignore/api/kotlin,java,android,gradle,androidstudio,intellij
-# Edit at https://www.toptal.com/developers/gitignore?templates=kotlin,java,android,gradle,androidstudio,intellij
+# Created by https://www.toptal.com/developers/gitignore/api/macos,kotlin,java,android,gradle,androidstudio,intellij
+# Edit at https://www.toptal.com/developers/gitignore?templates=macos,kotlin,java,android,gradle,androidstudio,intellij
 
 ### Android ###
 # Gradle files
@@ -20,6 +20,8 @@ captures/
 output.json
 
 # IntelliJ
+*.iml
+.idea/
 misc.xml
 deploymentTargetDropDown.xml
 render.experimental.xml
@@ -191,6 +193,39 @@ replay_pid*
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 
+### macOS ###
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+### macOS Patch ###
+# iCloud generated files
+*.icloud
+
 ### Gradle ###
 .gradle
 **/build/
@@ -252,6 +287,7 @@ proguard/
 /*/*/build
 /*/*/production
 .navigation/
+*.ipr
 *~
 *.swp
 
@@ -278,9 +314,11 @@ obj/
 .idea/workspace.xml
 .idea/tasks.xml
 .idea/.name
+.idea/compiler.xml
 .idea/copyright/profiles_settings.xml
 .idea/encodings.xml
 .idea/misc.xml
+.idea/modules.xml
 .idea/scopes/scope_settings.xml
 .idea/dictionaries
 .idea/vcs.xml
@@ -292,6 +330,7 @@ obj/
 .idea/uiDesigner.xml
 .idea/assetWizardSettings.xml
 .idea/gradle.xml
+.idea/jarRepositories.xml
 .idea/navEditor.xml
 .idea/androidTestResultsUserPreferences.xml
 .idea/deploymentTargetDropDown.xml
@@ -322,4 +361,4 @@ obj/
 
 !/gradle/wrapper/gradle-wrapper.jar
 
-# End of https://www.toptal.com/developers/gitignore/api/kotlin,java,android,gradle,androidstudio,intellij
+# End of https://www.toptal.com/developers/gitignore/api/macos,kotlin,java,android,gradle,androidstudio,intellij
