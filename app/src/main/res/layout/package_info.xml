@@ -2,20 +2,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="8dp"
     tools:context=".AppInfoActivity" >
 
     <ImageView
         android:id="@+id/app_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_centerVertical="true" />
 
     <TextView
         android:id="@+id/app_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="3dip"
-        android:layout_marginTop="5dip"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="5dp"
         android:layout_toRightOf="@+id/app_icon"
         android:textColor="@color/black"/>
 
@@ -23,8 +24,8 @@
         android:id="@+id/package_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="3dip"
-        android:layout_marginTop="5dip"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="5dp"
         android:layout_below="@+id/app_name"
         android:layout_toRightOf="@+id/app_icon"
         android:textColor="@color/black" />
