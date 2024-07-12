@@ -4,6 +4,7 @@ import android.content.ComponentName
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemClickListener
@@ -37,6 +38,8 @@ class FuzzerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fuzzer)
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         for (name in ipcTypesToNames.values) cmpTypes.add(name)
         currentType = cmpTypes[0]
 
@@ -52,6 +55,15 @@ class FuzzerActivity : AppCompatActivity() {
         }
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
     private fun getPkgInfo(): PackageInfo? {
         var pkgInfo: PackageInfo? = null
@@ -254,14 +266,4 @@ class FuzzerActivity : AppCompatActivity() {
         private var ipcNamesToTypes: Map<String, Int> = ipcTypesToNames.map { (k, v) -> v to k }.toMap()
     }
 
-    /*override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.fuzzer)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-    }*/
 }

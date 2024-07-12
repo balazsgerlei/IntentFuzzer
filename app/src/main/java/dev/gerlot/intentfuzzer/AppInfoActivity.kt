@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.ListView
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import dev.gerlot.intentfuzzer.util.AppInfo
 import dev.gerlot.intentfuzzer.util.Utils
 import dev.gerlot.intentfuzzer.util.Utils.getPackageInfo
+
 
 class AppInfoActivity : AppCompatActivity() {
 
@@ -56,6 +58,8 @@ class AppInfoActivity : AppCompatActivity() {
         setProgressBarVisibility(true)
         setContentView(R.layout.package_infos)
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         progressBar = findViewById<View>(R.id.progressbar) as ProgressBar
         listView = findViewById<View>(R.id.app_listview) as ListView
 
@@ -89,14 +93,14 @@ class AppInfoActivity : AppCompatActivity() {
             }
     }
 
-    /*override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.package_infos)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
         }
-    }*/
+        return super.onOptionsItemSelected(item)
+    }
+
 }
