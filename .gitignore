@@ -21,7 +21,6 @@ output.json
 
 # IntelliJ
 *.iml
-.idea/
 misc.xml
 deploymentTargetDropDown.xml
 render.experimental.xml
@@ -335,6 +334,7 @@ obj/
 .idea/androidTestResultsUserPreferences.xml
 .idea/deploymentTargetDropDown.xml
 .idea/deploymentTargetSelector.xml
+.idea/other.xml
 
 # Legacy Eclipse project files
 .cproject
