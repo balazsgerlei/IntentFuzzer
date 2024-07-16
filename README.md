@@ -6,5 +6,7 @@
 
 IntentFuzzer is inspired by the tool (https://www.isecpartners.com/tools/mobile-security/intent-fuzzer.aspx)
 developed by iSECpartners (www.isecpartners.com).
-You can specify an application, then either fuzz a single component or all components!
-For a single component, just click an item listed. While click the "Null Fuzz All" button for all components!
+
+You can choose an application, then either fuzz a single component (Activity, Broadcast Receiver or Service) or all components.
+
+For a single component, just tap an item listed to null fuzz (send and Intent with every property set to null) and long tap to serialize fuzz it (send an Intent with every property set to null except add a Serializable extra with a custom class that will be unknown to the receiving app). Use the "Null Fuzz All" and "Serialize Fuzz All" buttons for all components.
