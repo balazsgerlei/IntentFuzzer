@@ -1,12 +1,8 @@
 package dev.gerlot.intentfuzzer.util
 
-class ComponentInfo {
-    var compType: Int = Utils.ACTIVITIES
+import android.content.ComponentName
 
-    var componentName: String? = null
-        private set
-
-    fun setClassName(componentName: String?) {
-        this.componentName = componentName
-    }
-}
+data class ComponentInfo(
+    val type: Int = Utils.ACTIVITIES,
+    val name: ComponentName,
+)

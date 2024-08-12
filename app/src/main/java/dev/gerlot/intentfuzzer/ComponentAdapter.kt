@@ -20,18 +20,14 @@ class ComponentAdapter(context: Context, componentInfos: List<ComponentInfo>?) :
     }
 
     override fun getCount(): Int {
-        // TODO Auto-generated method stub
-
         return mlistComponentInfo!!.size
     }
 
     override fun getItem(position: Int): Any {
-        // TODO Auto-generated method stub
         return mlistComponentInfo!![position]
     }
 
     override fun getItemId(position: Int): Long {
-        // TODO Auto-generated method stub
         return 0
     }
 
@@ -41,17 +37,22 @@ class ComponentAdapter(context: Context, componentInfos: List<ComponentInfo>?) :
         if (convertview?.tag == null) {
             view = infater?.inflate(R.layout.component, null)
             holder = ViewHolder(view!!)
-            view!!.tag = holder
+            view.tag = holder
         } else {
             view = convertview
             holder = convertview.tag as ViewHolder
         }
         val componentInfo: ComponentInfo = getItem(position) as ComponentInfo
-        holder!!.componentName.setText(componentInfo.componentName)
+        val fullClassName = componentInfo.name.className
+        val packageName = fullClassName.substring(startIndex = 0, endIndex = fullClassName.lastIndexOf("."))
+        val className = fullClassName.substring(fullClassName.lastIndexOf(".") + 1)
+        holder.componentPackage.text = packageName
+        holder.componentName.text = className
         return view
     }
 
     internal inner class ViewHolder(view: View) {
+        var componentPackage: TextView = view.findViewById<View>(R.id.component_package) as TextView
         var componentName: TextView = view.findViewById<View>(R.id.component_name) as TextView
     }
 }

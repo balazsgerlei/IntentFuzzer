@@ -15,39 +15,34 @@ class MainMenuAdapter(context: Context) : BaseAdapter() {
     var infater: LayoutInflater? = null
 
     override fun getCount(): Int {
-        // TODO Auto-generated method stub
         return mThumbIds.size
     }
 
     override fun getItem(position: Int): Any? {
-        // TODO Auto-generated method stub
         return null
     }
 
     override fun getItemId(position: Int): Long {
-        // TODO Auto-generated method stub
         return 0
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        // TODO Auto-generated method stub
-
         var view: View? = null
         var holder: ViewHolder? = null
         if (convertView == null) {
             view = infater?.inflate(R.layout.menu_item, null)
             holder = ViewHolder(view!!)
-            view!!.tag = holder
+            view.tag = holder
         } else {
             view = convertView
             holder = convertView.tag as ViewHolder
         }
 
-        holder!!.menuImg.setImageResource(mThumbIds[position])
+        holder.menuImg.setImageResource(mThumbIds[position])
         holder.menuImg.setAlpha(alpha)
         holder.menuLabel.text = menuLabels[position]
 
-        return view!!
+        return view
     }
 
     internal inner class ViewHolder(view: View) {
@@ -55,20 +50,18 @@ class MainMenuAdapter(context: Context) : BaseAdapter() {
         var menuLabel: TextView = view.findViewById<View>(R.id.label_menu) as TextView
     }
 
-    private val mThumbIds = arrayOf<Int>(
+    private val mThumbIds = arrayOf(
         R.drawable.allapps,
         R.drawable.system,
         R.drawable.application,
         R.drawable.about,
-
-        )
+    )
 
     private val menuLabels = arrayOf(
         "AllApps",
         "SystemApps",
         "NonSystemApps",
         "About"
-
     )
 
     init {

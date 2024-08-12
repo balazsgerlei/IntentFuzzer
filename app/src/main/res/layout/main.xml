@@ -6,7 +6,6 @@
     tools:context=".MainActivity"
     android:background="@drawable/fuzzer_bg">
 
-
     <GridView
         android:id="@+id/gridview"
         android:layout_width="wrap_content"
@@ -16,8 +15,6 @@
         android:verticalSpacing="10dp"
         android:horizontalSpacing="10dp"
         android:stretchMode="columnWidth"
-        android:gravity="center"
-        />
-
+        android:gravity="center"/>
 
 </LinearLayout>

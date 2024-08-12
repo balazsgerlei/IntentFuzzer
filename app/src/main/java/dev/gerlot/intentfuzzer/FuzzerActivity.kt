@@ -18,6 +18,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
+import dev.gerlot.intentfuzzer.util.ComponentInfo
 import dev.gerlot.intentfuzzer.util.SerializableTest
 import dev.gerlot.intentfuzzer.util.Utils
 
@@ -30,10 +31,11 @@ class FuzzerActivity : AppCompatActivity() {
     private var fuzzAllNullBtn: Button? = null
     private var fuzzAllSeBtn: Button? = null
 
-    private var cmpAdapter: ArrayAdapter<String>? = null
+    //private var cmpAdapter: ArrayAdapter<String>? = null
+    private var cmpAdapter: ComponentAdapter? = null
 
     private val cmpNames = ArrayList<String>()
-    private var components = ArrayList<ComponentName>()
+    private var components: List<ComponentInfo> = emptyList()
     private var pkgInfo: PackageInfo? = null
 
     public override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,13 +83,13 @@ class FuzzerActivity : AppCompatActivity() {
         fuzzAllSeBtn = findViewById(R.id.fuzz_all_se)
 
         cmpListView!!.onItemClickListener =
-            OnItemClickListener { parent, view, position, id -> // TODO Auto-generated method stub
+            OnItemClickListener { parent, view, position, id ->
                 var toSend: ComponentName? = null
                 val intent = Intent()
                 val className = cmpAdapter!!.getItem(position).toString()
-                for (cmpName in components) {
-                    if (cmpName.className == className) {
-                        toSend = cmpName
+                for (component in components) {
+                    if (component.name.className == className) {
+                        toSend = component.name
                         break
                     }
                 }
@@ -103,13 +105,13 @@ class FuzzerActivity : AppCompatActivity() {
             }
 
         cmpListView!!.onItemLongClickListener =
-            OnItemLongClickListener { parent, view, position, id -> // TODO Auto-generated method stub
+            OnItemLongClickListener { parent, view, position, id ->
                 var toSend: ComponentName? = null
                 val intent = Intent()
                 val className = cmpAdapter!!.getItem(position).toString()
-                for (cmpName in components) {
-                    if (cmpName.className == className) {
-                        toSend = cmpName
+                for (component in components) {
+                    if (component.name.className == className) {
+                        toSend = component.name
                         break
                     }
                 }
@@ -130,10 +132,10 @@ class FuzzerActivity : AppCompatActivity() {
             }
 
 
-        fuzzAllNullBtn!!.setOnClickListener { // TODO Auto-generated method stub
-            for (cmpName in components) {
+        fuzzAllNullBtn!!.setOnClickListener {
+            for (component in components) {
                 val intent = Intent()
-                intent.setComponent(cmpName)
+                intent.setComponent(component.name)
                 if (sendIntentByType(intent, currentType)) {
                     Toast.makeText(this@FuzzerActivity, "Sent Null $intent", Toast.LENGTH_LONG)
                         .show()
@@ -144,10 +146,10 @@ class FuzzerActivity : AppCompatActivity() {
             }
         }
 
-        fuzzAllSeBtn!!.setOnClickListener { // TODO Auto-generated method stub
-            for (cmpName in components) {
+        fuzzAllSeBtn!!.setOnClickListener {
+            for (component in components) {
                 val intent = Intent()
-                intent.setComponent(cmpName)
+                intent.setComponent(component.name)
                 intent.putExtra("test", SerializableTest())
                 if (sendIntentByType(intent, currentType)) {
                     Toast.makeText(
@@ -187,10 +189,10 @@ class FuzzerActivity : AppCompatActivity() {
         fuzzAllSeBtn!!.visibility = View.INVISIBLE
         components = getComponents(currentType)
         cmpNames.clear()
-        if (!components.isEmpty()) {
-            for (cmpName in components) {
-                if (!cmpNames.contains(cmpName.className)) {
-                    cmpNames.add(cmpName.className)
+        if (components.isNotEmpty()) {
+            for (component in components) {
+                if (!cmpNames.contains(component.name.className)) {
+                    cmpNames.add(component.name.className)
                 }
             }
 
@@ -203,22 +205,28 @@ class FuzzerActivity : AppCompatActivity() {
     }
 
 
-    private fun getComponents(currentType: String?): ArrayList<ComponentName> {
-        val cmpsFound = ArrayList<ComponentName>()
-        when (ipcNamesToTypes[currentType]) {
+    private fun getComponents(currentType: String?): List<ComponentInfo> {
+        val cmpsFound = ArrayList<ComponentInfo>()
+        val type = ipcNamesToTypes[currentType]
+        when (type) {
             Utils.ACTIVITIES -> pkgInfo!!.activities
             Utils.RECEIVERS -> pkgInfo!!.receivers
             Utils.SERVICES -> pkgInfo!!.services
             else -> pkgInfo!!.activities
         }?.forEach {
-            cmpsFound.add(ComponentName(pkgInfo!!.packageName, it.name))
+            cmpsFound.add(
+                ComponentInfo(
+                    type = type!!,
+                    name = ComponentName(pkgInfo!!.packageName, it.name)
+                )
+            )
         }
 
         return cmpsFound
     }
 
     private fun setListView() {
-        cmpAdapter = ArrayAdapter<String>(this, R.layout.component, cmpNames)
+        cmpAdapter = ComponentAdapter(this, components)
         cmpListView!!.adapter = cmpAdapter
     }
 

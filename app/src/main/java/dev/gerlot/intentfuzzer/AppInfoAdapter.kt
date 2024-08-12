@@ -21,18 +21,14 @@ class AppInfoAdapter(context: Context, appInfos: List<AppInfo>?) :
     }
 
     override fun getCount(): Int {
-        // TODO Auto-generated method stub
-
         return mlistAppInfo!!.size
     }
 
     override fun getItem(position: Int): Any {
-        // TODO Auto-generated method stub
         return mlistAppInfo!![position]
     }
 
     override fun getItemId(position: Int): Long {
-        // TODO Auto-generated method stub
         return 0
     }
 

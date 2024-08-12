@@ -77,7 +77,7 @@ class AppInfoActivity : AppCompatActivity() {
         }
 
         listView!!.onItemClickListener =
-            OnItemClickListener { parent, view, position, id -> // TODO Auto-generated method stub
+            OnItemClickListener { parent, view, position, id ->
                 val appInfo: AppInfo = appInfoAdapter!!.getItem(position) as AppInfo
                 (application as IntentFuzzerApp).packageInfo = appInfo.packageInfo
 

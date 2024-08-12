@@ -18,16 +18,15 @@
 
     <ListView
         android:id="@+id/cmp_listview"
-        android:layout_marginTop="5dip"
+        android:layout_marginTop="8dp"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
-    </ListView>
+        android:layout_weight="1"/>
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="80dip"
-        android:layout_marginTop="10dip" >
+        android:layout_height="80dp"
+        android:layout_marginTop="10dp" >
 
         <Button
             android:id="@+id/fuzz_all_null"
@@ -36,8 +35,8 @@
             android:layout_alignParentLeft="true"
             android:layout_marginHorizontal="4dp"
             android:text="@string/fuzz_all_null"
-            android:visibility="gone">
-        </Button>
+            android:visibility="gone"/>
+
         <Button
             android:id="@+id/fuzz_all_se"
             android:layout_width="wrap_content"
@@ -46,8 +45,8 @@
             android:layout_toRightOf="@id/fuzz_all_null"
             android:layout_marginHorizontal="4dp"
             android:text="@string/fuzz_all_se"
-            android:visibility="gone">
-        </Button>
+            android:visibility="gone"/>
+
     </RelativeLayout>
 
 </LinearLayout>

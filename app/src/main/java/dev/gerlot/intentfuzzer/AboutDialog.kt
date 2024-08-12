@@ -8,7 +8,6 @@ class AboutDialog : Dialog {
     private var context: Context
 
     constructor(context: Context) : super(context) {
-        // TODO Auto-generated constructor stub
         this.context = context
     }
 
@@ -17,7 +16,6 @@ class AboutDialog : Dialog {
     }
 
     override fun onCreate(savedInstanceState: Bundle) {
-        // TODO Auto-generated method stub
         super.onCreate(savedInstanceState)
         this.setContentView(R.layout.dialog)
     }
