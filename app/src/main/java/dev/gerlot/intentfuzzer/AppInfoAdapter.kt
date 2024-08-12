@@ -9,7 +9,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import dev.gerlot.intentfuzzer.util.AppInfo
 
-
 class AppInfoAdapter(context: Context, appInfos: List<AppInfo>?) :
     BaseAdapter() {
     private var mlistAppInfo: List<AppInfo>? = null

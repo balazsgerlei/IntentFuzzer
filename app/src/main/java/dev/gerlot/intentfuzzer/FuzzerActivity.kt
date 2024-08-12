@@ -4,6 +4,7 @@ import android.content.ComponentName
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
@@ -15,15 +16,16 @@ import android.widget.ListView
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.button.MaterialButtonToggleGroup
 import dev.gerlot.intentfuzzer.util.SerializableTest
 import dev.gerlot.intentfuzzer.util.Utils
 
-
 class FuzzerActivity : AppCompatActivity() {
 
-    private val cmpTypes = ArrayList<String>()
-    private var currentType: String? = null
-    private var typeSpinner: Spinner? = null
+    private var cmpTypes = ipcTypesToNames.values.toList()
+    private var currentType = cmpTypes[0]
+    private var typeGroup: MaterialButtonToggleGroup? = null
     private var cmpListView: ListView? = null
     private var fuzzAllNullBtn: Button? = null
     private var fuzzAllSeBtn: Button? = null
@@ -40,19 +42,15 @@ class FuzzerActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        for (name in ipcTypesToNames.values) cmpTypes.add(name)
-        currentType = cmpTypes[0]
-
-        initView()
-        initTypeSpinner()
-
-
         //pkgInfo = getPkgInfo();
         pkgInfo = (application as IntentFuzzerApp).packageInfo
         if (pkgInfo == null) {
             Toast.makeText(this, R.string.pkginfo_null, Toast.LENGTH_LONG).show()
             return
         }
+
+        initView()
+        initTypeGroup()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -77,10 +75,10 @@ class FuzzerActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        typeSpinner = findViewById<View>(R.id.type_select) as Spinner
-        cmpListView = findViewById<View>(R.id.cmp_listview) as ListView
-        fuzzAllNullBtn = findViewById<View>(R.id.fuzz_all_null) as Button
-        fuzzAllSeBtn = findViewById<View>(R.id.fuzz_all_se) as Button
+        typeGroup = findViewById(R.id.type_select)!!
+        cmpListView = findViewById(R.id.cmp_listview)
+        fuzzAllNullBtn = findViewById(R.id.fuzz_all_null)
+        fuzzAllSeBtn = findViewById(R.id.fuzz_all_se)
 
         cmpListView!!.onItemClickListener =
             OnItemClickListener { parent, view, position, id -> // TODO Auto-generated method stub
@@ -164,32 +162,25 @@ class FuzzerActivity : AppCompatActivity() {
         }
     }
 
-    private fun initTypeSpinner() {
-        val typeAdapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_spinner_item, cmpTypes
-        )
-        typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        typeSpinner!!.adapter = typeAdapter
-
-        typeSpinner!!.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                updateType()
-                updateComponents(currentType)
-            }
-
-            override fun onNothingSelected(arg0: AdapterView<*>?) {
-            }
-        })
-    }
-
-    private fun updateType() {
-        val selector = typeSpinner!!.selectedItem
-        if (selector != null) {
-            currentType = typeSpinner!!.selectedItem.toString()
+    private fun initTypeGroup() {
+        cmpTypes.forEach {  type ->
+            val button = MaterialButton(this, null, com.google.android.material.R.attr.materialButtonOutlinedStyle)
+            button.text = type
+            typeGroup!!.addView(button)
         }
+        typeGroup!!.addOnButtonCheckedListener { toggleButton, checkedId, isChecked ->
+            if (isChecked) {
+                Log.d("salala", "checkedId: $checkedId")
+                cmpTypes.forEachIndexed { index, _ ->
+                    if ((typeGroup!!.getChildAt(index) as MaterialButton).id == checkedId) {
+                        currentType = cmpTypes[index]
+                        updateComponents(currentType)
+                    }
+                }
+            }
+        }
+        (typeGroup!!.getChildAt(0) as MaterialButton).isChecked = true
     }
-
 
     private fun updateComponents(currentType: String?) {
         fuzzAllNullBtn!!.visibility = View.INVISIBLE
@@ -219,7 +210,7 @@ class FuzzerActivity : AppCompatActivity() {
             Utils.RECEIVERS -> pkgInfo!!.receivers
             Utils.SERVICES -> pkgInfo!!.services
             else -> pkgInfo!!.activities
-        }.forEach {
+        }?.forEach {
             cmpsFound.add(ComponentName(pkgInfo!!.packageName, it.name))
         }
 

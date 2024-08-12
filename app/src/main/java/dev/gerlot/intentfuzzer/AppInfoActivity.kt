@@ -16,7 +16,6 @@ import dev.gerlot.intentfuzzer.util.AppInfo
 import dev.gerlot.intentfuzzer.util.Utils
 import dev.gerlot.intentfuzzer.util.Utils.getPackageInfo
 
-
 class AppInfoActivity : AppCompatActivity() {
 
     private var msg = Utils.MSG_PROCESSING

@@ -12,7 +12,6 @@ import android.widget.GridView
 import androidx.appcompat.app.AppCompatActivity
 import dev.gerlot.intentfuzzer.util.Utils
 
-
 class MainActivity : AppCompatActivity() {
 
     private var gridView: GridView? = null

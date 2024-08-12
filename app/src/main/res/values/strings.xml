@@ -7,7 +7,6 @@
     <string name="system_apps">System Apps Only</string>
     <string name="nonsystem_apps">Non-System Apps Only</string>
     <string name="all_apps">All Apps</string>
-    <string name="type_surportted">Types Surportted</string>
     <string name="components">Components</string>
     <string name="fuzz_all_null">Null Fuzz All</string>
     <string name="fuzz_all_se">Serialize Fuzz All</string>
