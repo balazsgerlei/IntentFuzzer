@@ -51,7 +51,7 @@ object Utils {
             }
         }
 
-        return pkgInfoList
+        return pkgInfoList.sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER) { it.appName })
     }
 
 
