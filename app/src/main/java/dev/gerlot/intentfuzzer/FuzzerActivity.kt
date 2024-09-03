@@ -75,11 +75,11 @@ class FuzzerActivity : AppCompatActivity() {
 
         cmpListView?.onItemClickListener =
             OnItemClickListener { _, _, position, _ ->
-                cmpAdapter?.getItem(position).toString().let { className ->
+                cmpAdapter?.getItem(position)?.let { componentInfo ->
                     val intentToSend = Intent()
                     var targetComponentName: ComponentName? = null
                     for (component in components) {
-                        if (component.name.className == className) {
+                        if (component.name == componentInfo.name) {
                             targetComponentName = component.name
                             break
                         }
@@ -98,11 +98,11 @@ class FuzzerActivity : AppCompatActivity() {
 
         cmpListView?.onItemLongClickListener =
             OnItemLongClickListener { _, _, position, _ ->
-                cmpAdapter?.getItem(position).toString().let { className ->
+                cmpAdapter?.getItem(position)?.let { componentInfo ->
                     val intentToSend = Intent()
                     var targetComponentName: ComponentName? = null
                     for (component in components) {
-                        if (component.name.className == className) {
+                        if (component.name == componentInfo.name) {
                             targetComponentName = component.name
                             break
                         }

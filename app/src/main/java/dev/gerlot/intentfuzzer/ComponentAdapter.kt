@@ -23,7 +23,7 @@ class ComponentAdapter(context: Context, componentInfos: List<ComponentInfo>?) :
         return mlistComponentInfo!!.size
     }
 
-    override fun getItem(position: Int): Any {
+    override fun getItem(position: Int): ComponentInfo {
         return mlistComponentInfo!![position]
     }
 
