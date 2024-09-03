@@ -7,17 +7,15 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import android.widget.AdapterView
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.AdapterView.OnItemLongClickListener
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
-import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
+import dev.gerlot.intentfuzzer.util.AppInfo
 import dev.gerlot.intentfuzzer.util.ComponentInfo
 import dev.gerlot.intentfuzzer.util.SerializableTest
 import dev.gerlot.intentfuzzer.util.Utils
@@ -31,7 +29,6 @@ class FuzzerActivity : AppCompatActivity() {
     private var fuzzAllNullBtn: Button? = null
     private var fuzzAllSeBtn: Button? = null
 
-    //private var cmpAdapter: ArrayAdapter<String>? = null
     private var cmpAdapter: ComponentAdapter? = null
 
     private val cmpNames = ArrayList<String>()
@@ -44,9 +41,14 @@ class FuzzerActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        //pkgInfo = getPkgInfo();
-        pkgInfo = (application as IntentFuzzerApp).packageInfo
-        if (pkgInfo == null) {
+        val appInfo: AppInfo? = if (intent.hasExtra(Utils.APPINFO_KEY)) {
+            intent.getParcelableExtra(Utils.APPINFO_KEY)
+        } else null
+
+        if (appInfo != null) {
+            title = appInfo.appName
+            pkgInfo = appInfo.packageInfo
+        } else {
             Toast.makeText(this, R.string.pkginfo_null, Toast.LENGTH_LONG).show()
             return
         }
@@ -65,79 +67,70 @@ class FuzzerActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun getPkgInfo(): PackageInfo? {
-        var pkgInfo: PackageInfo? = null
-
-        val intent = intent
-        if (intent.hasExtra(Utils.PKGINFO_KEY)) {
-            pkgInfo = intent.getParcelableExtra(Utils.PKGINFO_KEY)
-        }
-
-        return pkgInfo
-    }
-
     private fun initView() {
-        typeGroup = findViewById(R.id.type_select)!!
+        typeGroup = findViewById(R.id.type_select)
         cmpListView = findViewById(R.id.cmp_listview)
         fuzzAllNullBtn = findViewById(R.id.fuzz_all_null)
         fuzzAllSeBtn = findViewById(R.id.fuzz_all_se)
 
-        cmpListView!!.onItemClickListener =
-            OnItemClickListener { parent, view, position, id ->
-                var toSend: ComponentName? = null
-                val intent = Intent()
-                val className = cmpAdapter!!.getItem(position).toString()
-                for (component in components) {
-                    if (component.name.className == className) {
-                        toSend = component.name
-                        break
+        cmpListView?.onItemClickListener =
+            OnItemClickListener { _, _, position, _ ->
+                cmpAdapter?.getItem(position).toString().let { className ->
+                    val intentToSend = Intent()
+                    var targetComponentName: ComponentName? = null
+                    for (component in components) {
+                        if (component.name.className == className) {
+                            targetComponentName = component.name
+                            break
+                        }
                     }
-                }
 
-                intent.setComponent(toSend)
-                if (sendIntentByType(intent, currentType)) {
-                    Toast.makeText(this@FuzzerActivity, "Sent Null $intent", Toast.LENGTH_LONG)
-                        .show()
-                } else {
-                    Toast.makeText(this@FuzzerActivity, "Send $intent Failed!", Toast.LENGTH_LONG)
-                        .show()
+                    intentToSend.setComponent(targetComponentName)
+                    if (sendIntentByType(intentToSend, currentType)) {
+                        Toast.makeText(this@FuzzerActivity, "Sent Null $intentToSend", Toast.LENGTH_LONG)
+                            .show()
+                    } else {
+                        Toast.makeText(this@FuzzerActivity, "Send $intentToSend Failed!", Toast.LENGTH_LONG)
+                            .show()
+                    }
                 }
             }
 
-        cmpListView!!.onItemLongClickListener =
-            OnItemLongClickListener { parent, view, position, id ->
-                var toSend: ComponentName? = null
-                val intent = Intent()
-                val className = cmpAdapter!!.getItem(position).toString()
-                for (component in components) {
-                    if (component.name.className == className) {
-                        toSend = component.name
-                        break
+        cmpListView?.onItemLongClickListener =
+            OnItemLongClickListener { _, _, position, _ ->
+                cmpAdapter?.getItem(position).toString().let { className ->
+                    val intentToSend = Intent()
+                    var targetComponentName: ComponentName? = null
+                    for (component in components) {
+                        if (component.name.className == className) {
+                            targetComponentName = component.name
+                            break
+                        }
                     }
-                }
 
-                intent.setComponent(toSend)
-                intent.putExtra("test", SerializableTest())
+                    intentToSend.setComponent(targetComponentName)
+                    intentToSend.putExtra("test", SerializableTest())
 
-                if (sendIntentByType(intent, currentType)) {
-                    Toast.makeText(
-                        this@FuzzerActivity,
-                        "Sent Serializeable $intent", Toast.LENGTH_LONG
-                    ).show()
-                } else {
-                    Toast.makeText(this@FuzzerActivity, "Send $intent Failed!", Toast.LENGTH_LONG)
-                        .show()
+                    if (sendIntentByType(intentToSend, currentType)) {
+                        Toast.makeText(
+                            this@FuzzerActivity,
+                            "Sent Serializeable $intentToSend", Toast.LENGTH_LONG
+                        ).show()
+                    } else {
+                        Toast.makeText(this@FuzzerActivity, "Send $intentToSend Failed!", Toast.LENGTH_LONG)
+                            .show()
+                    }
                 }
                 true
             }
 
 
-        fuzzAllNullBtn!!.setOnClickListener {
+        fuzzAllNullBtn?.setOnClickListener {
             for (component in components) {
-                val intent = Intent()
-                intent.setComponent(component.name)
-                if (sendIntentByType(intent, currentType)) {
-                    Toast.makeText(this@FuzzerActivity, "Sent Null $intent", Toast.LENGTH_LONG)
+                val intentToSend = Intent()
+                intentToSend.setComponent(component.name)
+                if (sendIntentByType(intentToSend, currentType)) {
+                    Toast.makeText(this@FuzzerActivity, "Sent Null $intentToSend", Toast.LENGTH_LONG)
                         .show()
                 } else {
                     Toast.makeText(this@FuzzerActivity, R.string.send_faild, Toast.LENGTH_LONG)
@@ -146,15 +139,15 @@ class FuzzerActivity : AppCompatActivity() {
             }
         }
 
-        fuzzAllSeBtn!!.setOnClickListener {
+        fuzzAllSeBtn?.setOnClickListener {
             for (component in components) {
-                val intent = Intent()
-                intent.setComponent(component.name)
-                intent.putExtra("test", SerializableTest())
-                if (sendIntentByType(intent, currentType)) {
+                val intentToSend = Intent()
+                intentToSend.setComponent(component.name)
+                intentToSend.putExtra("test", SerializableTest())
+                if (sendIntentByType(intentToSend, currentType)) {
                     Toast.makeText(
                         this@FuzzerActivity,
-                        "Sent Serializeable $intent", Toast.LENGTH_LONG
+                        "Sent Serializeable $intentToSend", Toast.LENGTH_LONG
                     ).show()
                 } else {
                     Toast.makeText(this@FuzzerActivity, R.string.send_faild, Toast.LENGTH_LONG)
@@ -168,9 +161,9 @@ class FuzzerActivity : AppCompatActivity() {
         cmpTypes.forEach {  type ->
             val button = MaterialButton(this, null, com.google.android.material.R.attr.materialButtonOutlinedStyle)
             button.text = type
-            typeGroup!!.addView(button)
+            typeGroup?.addView(button)
         }
-        typeGroup!!.addOnButtonCheckedListener { toggleButton, checkedId, isChecked ->
+        typeGroup?.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if (isChecked) {
                 Log.d("salala", "checkedId: $checkedId")
                 cmpTypes.forEachIndexed { index, _ ->
@@ -181,12 +174,12 @@ class FuzzerActivity : AppCompatActivity() {
                 }
             }
         }
-        (typeGroup!!.getChildAt(0) as MaterialButton).isChecked = true
+        (typeGroup?.getChildAt(0) as MaterialButton?)?.isChecked = true
     }
 
     private fun updateComponents(currentType: String?) {
-        fuzzAllNullBtn!!.visibility = View.INVISIBLE
-        fuzzAllSeBtn!!.visibility = View.INVISIBLE
+        fuzzAllNullBtn?.visibility = View.INVISIBLE
+        fuzzAllSeBtn?.visibility = View.INVISIBLE
         components = getComponents(currentType)
         cmpNames.clear()
         if (components.isNotEmpty()) {
@@ -196,8 +189,8 @@ class FuzzerActivity : AppCompatActivity() {
                 }
             }
 
-            fuzzAllNullBtn!!.visibility = View.VISIBLE
-            fuzzAllSeBtn!!.visibility = View.VISIBLE
+            fuzzAllNullBtn?.visibility = View.VISIBLE
+            fuzzAllSeBtn?.visibility = View.VISIBLE
         } else {
             Toast.makeText(this, R.string.no_compt, Toast.LENGTH_LONG).show()
         }
@@ -227,7 +220,7 @@ class FuzzerActivity : AppCompatActivity() {
 
     private fun setListView() {
         cmpAdapter = ComponentAdapter(this, components)
-        cmpListView!!.adapter = cmpAdapter
+        cmpListView?.adapter = cmpAdapter
     }
 
     private fun sendIntentByType(intent: Intent, type: String?): Boolean {
@@ -237,17 +230,14 @@ class FuzzerActivity : AppCompatActivity() {
                     startActivity(intent)
                     return true
                 }
-
                 Utils.RECEIVERS -> {
                     sendBroadcast(intent)
                     return true
                 }
-
                 Utils.SERVICES -> {
                     startService(intent)
                     return true
                 }
-
                 else -> return true
             }
         } catch (e: Exception) {

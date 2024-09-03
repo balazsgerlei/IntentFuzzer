@@ -34,11 +34,11 @@ class AppInfoActivity : AppCompatActivity() {
         override fun handleMessage(msg: Message) {
             when (msg.what) {
                 Utils.MSG_DONE -> {
-                    progressBar!!.visibility = View.GONE
-                    listView!!.adapter = appInfoAdapter
+                    progressBar?.visibility = View.GONE
+                    listView?.adapter = appInfoAdapter
                 }
 
-                Utils.MSG_PROCESSING -> progressBar!!.visibility = View.VISIBLE
+                Utils.MSG_PROCESSING -> progressBar?.visibility = View.VISIBLE
                 Utils.MSG_ERROR -> {}
             }
         }
@@ -51,7 +51,6 @@ class AppInfoActivity : AppCompatActivity() {
         mHandler.obtainMessage(msg).sendToTarget()
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setProgressBarVisibility(true)
@@ -62,13 +61,12 @@ class AppInfoActivity : AppCompatActivity() {
         progressBar = findViewById<View>(R.id.progressbar) as ProgressBar
         listView = findViewById<View>(R.id.app_listview) as ListView
 
-        progressBar!!.isIndeterminate = false
+        progressBar?.isIndeterminate = false
 
         mHandler.obtainMessage(msg).sendToTarget()
 
-        val intent = intent
-        if (intent.hasExtra("type")) {
-            appType = intent.getIntExtra("type", Utils.ALL_APPS)
+        if (intent.hasExtra(Utils.APPTYPE_KEY)) {
+            appType = intent.getIntExtra(Utils.APPTYPE_KEY, Utils.ALL_APPS)
         }
 
         if (mGetPkgInfoThread == null) {
@@ -76,19 +74,18 @@ class AppInfoActivity : AppCompatActivity() {
             mGetPkgInfoThread!!.start()
         }
 
-        listView!!.onItemClickListener =
-            OnItemClickListener { parent, view, position, id ->
-                val appInfo: AppInfo = appInfoAdapter!!.getItem(position) as AppInfo
-                (application as IntentFuzzerApp).packageInfo = appInfo.packageInfo
-
-                val intent = Intent(
-                    this@AppInfoActivity,
-                    FuzzerActivity::class.java
-                )
-                //Bundle bundle = new Bundle();
-                //bundle.putParcelable(Utils.PKGINFO_KEY, appInfo.getPackageInfo());
-                //intent.putExtras(bundle);
-                startActivity(intent)
+        listView?.onItemClickListener =
+            OnItemClickListener { _, _, position, _ ->
+                (appInfoAdapter?.getItem(position) as AppInfo).let { appInfo ->
+                    Intent(this, FuzzerActivity::class.java).also { newIntent ->
+                        Bundle().apply {
+                            putParcelable(Utils.APPINFO_KEY, appInfo)
+                        }.also {
+                            newIntent.putExtras(it);
+                            startActivity(newIntent)
+                        }
+                    }
+                }
             }
     }
 

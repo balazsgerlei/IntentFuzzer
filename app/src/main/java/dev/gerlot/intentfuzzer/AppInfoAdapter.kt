@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.graphics.drawable.toDrawable
 import dev.gerlot.intentfuzzer.util.AppInfo
 
-class AppInfoAdapter(context: Context, appInfos: List<AppInfo>?) :
-    BaseAdapter() {
+class AppInfoAdapter(context: Context, appInfos: List<AppInfo>?) : BaseAdapter() {
     private var mlistAppInfo: List<AppInfo>? = null
 
-    var infater: LayoutInflater? = null
+    private var infater: LayoutInflater? = null
 
     init {
         infater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -38,16 +38,16 @@ class AppInfoAdapter(context: Context, appInfos: List<AppInfo>?) :
         if (convertview?.tag == null) {
             view = infater?.inflate(R.layout.package_info, null)
             holder = ViewHolder(view!!)
-            view!!.tag = holder
+            view.tag = holder
         } else {
             view = convertview
             holder = convertview.tag as ViewHolder
         }
         val appInfo: AppInfo = getItem(position) as AppInfo
-        holder!!.appIcon.setImageDrawable(appInfo.appIcon)
-        holder.appName.setText(appInfo.appName)
-        holder.packageName.setText(appInfo.packageName)
-        return view!!
+        holder.appIcon.setImageBitmap(appInfo.appIcon)
+        holder.appName.text = appInfo.appName
+        holder.packageName.text = appInfo.packageName
+        return view
     }
 
     internal inner class ViewHolder(view: View) {

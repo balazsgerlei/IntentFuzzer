@@ -14,52 +14,39 @@ import dev.gerlot.intentfuzzer.util.Utils
 
 class MainActivity : AppCompatActivity() {
 
-    private var gridView: GridView? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main)
 
-        gridView = findViewById<View>(R.id.gridview) as GridView
-        gridView!!.selector = ColorDrawable(Color.TRANSPARENT)
-        gridView!!.setAdapter(MainMenuAdapter(this))
-        gridView!!.onItemClickListener =
-            OnItemClickListener { parent, view, position, id ->
-                if (position == 0) {
-                    val intent = Intent(
-                        this@MainActivity,
-                        AppInfoActivity::class.java
-                    )
-                    intent.putExtra("type", Utils.ALL_APPS)
-                    startActivity(intent)
-                }
-                if (position == 1) {
-                    val intent = Intent(
-                        this@MainActivity,
-                        AppInfoActivity::class.java
-                    )
-                    intent.putExtra("type", Utils.SYSTEM_APPS)
-                    startActivity(intent)
-                }
-
-                if (position == 2) {
-                    val intent = Intent(
-                        this@MainActivity,
-                        AppInfoActivity::class.java
-                    )
-                    intent.putExtra("type", Utils.NONSYSTEM_APPS)
-                    startActivity(intent)
-                }
-                if (position == 3) {
-                    val dialog = Dialog(this@MainActivity, R.style.dialog)
-                    dialog.setContentView(R.layout.dialog)
-                    dialog.show()
+        val gridView: GridView = findViewById(R.id.gridview)
+        gridView.selector = ColorDrawable(Color.TRANSPARENT)
+        gridView.setAdapter(MainMenuAdapter(this))
+        gridView.onItemClickListener =
+            OnItemClickListener { _, _, position, _ ->
+                when(position) {
+                    Utils.ALL_APPS -> Intent(this@MainActivity, AppInfoActivity::class.java).apply {
+                        putExtra(Utils.APPTYPE_KEY, Utils.ALL_APPS)
+                    }.also {
+                        startActivity(it)
+                    }
+                    Utils.SYSTEM_APPS -> Intent(this@MainActivity, AppInfoActivity::class.java).apply {
+                        putExtra(Utils.APPTYPE_KEY, Utils.SYSTEM_APPS)
+                    }.also {
+                        startActivity(it)
+                    }
+                    Utils.NONSYSTEM_APPS -> Intent(this@MainActivity, AppInfoActivity::class.java).apply {
+                        putExtra(Utils.APPTYPE_KEY, Utils.NONSYSTEM_APPS)
+                    }.also {
+                        startActivity(it)
+                    }
+                    Utils.ABOUT -> Dialog(this@MainActivity, R.style.dialog).apply {
+                        setContentView(R.layout.dialog)
+                    }.show()
                 }
             }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
         return true
     }

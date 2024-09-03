@@ -12,7 +12,7 @@ class MainMenuAdapter(context: Context) : BaseAdapter() {
     private var mContext: Context? = null
     private val alpha = 180
 
-    var infater: LayoutInflater? = null
+    private var infater: LayoutInflater? = null
 
     override fun getCount(): Int {
         return mThumbIds.size
@@ -27,8 +27,8 @@ class MainMenuAdapter(context: Context) : BaseAdapter() {
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        var view: View? = null
-        var holder: ViewHolder? = null
+        val view: View?
+        val holder: ViewHolder?
         if (convertView == null) {
             view = infater?.inflate(R.layout.menu_item, null)
             holder = ViewHolder(view!!)

@@ -4,25 +4,26 @@ import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import androidx.core.graphics.drawable.toBitmap
 
 
 object Utils {
 
-    var ALL_APPS: Int = 0
-    var SYSTEM_APPS: Int = 1
-    var NONSYSTEM_APPS: Int = 2
-    var ABOUNT: Int = 3
+    const val ALL_APPS: Int = 0
+    const val SYSTEM_APPS: Int = 1
+    const val NONSYSTEM_APPS: Int = 2
+    const val ABOUT: Int = 3
 
-    val MSG_PROCESSING: Int = 0
-    val MSG_DONE: Int = 1
-    val MSG_ERROR: Int = 2
+    const val MSG_PROCESSING: Int = 0
+    const val MSG_DONE: Int = 1
+    const val MSG_ERROR: Int = 2
 
-    val ACTIVITIES: Int = 0
-    val RECEIVERS: Int = 1
-    val SERVICES: Int = 2
+    const val ACTIVITIES: Int = 0
+    const val RECEIVERS: Int = 1
+    const val SERVICES: Int = 2
 
-    val PKGINFO_KEY: String = "pkginfo"
-    val APPTYPE_KEY: String = "apptype"
+    const val APPINFO_KEY: String = "appinfo"
+    const val APPTYPE_KEY: String = "apptype"
 
     fun getPackageInfo(context: Context, type: Int): List<AppInfo> {
         val pkgInfoList: MutableList<AppInfo> = ArrayList()
@@ -59,7 +60,7 @@ object Utils {
         appInfo.packageInfo = packageInfo
         appInfo.appName = packageInfo.applicationInfo.loadLabel(context.packageManager).toString()
         appInfo.packageName = packageInfo.packageName
-        appInfo.appIcon = packageInfo.applicationInfo.loadIcon(context.packageManager)
+        appInfo.appIcon = packageInfo.applicationInfo.loadIcon(context.packageManager).toBitmap()
 
         return appInfo
     }

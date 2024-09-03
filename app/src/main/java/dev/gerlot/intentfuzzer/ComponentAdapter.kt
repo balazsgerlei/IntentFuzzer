@@ -12,7 +12,7 @@ class ComponentAdapter(context: Context, componentInfos: List<ComponentInfo>?) :
     BaseAdapter() {
     private var mlistComponentInfo: List<ComponentInfo>? = null
 
-    var infater: LayoutInflater? = null
+    private var infater: LayoutInflater? = null
 
     init {
         infater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -32,8 +32,8 @@ class ComponentAdapter(context: Context, componentInfos: List<ComponentInfo>?) :
     }
 
     override fun getView(position: Int, convertview: View?, viewGroup: ViewGroup): View {
-        var view: View? = null
-        var holder: ViewHolder? = null
+        val view: View?
+        val holder: ViewHolder?
         if (convertview?.tag == null) {
             view = infater?.inflate(R.layout.component, null)
             holder = ViewHolder(view!!)
