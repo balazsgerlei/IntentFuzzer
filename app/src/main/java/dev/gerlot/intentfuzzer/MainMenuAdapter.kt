@@ -40,7 +40,7 @@ class MainMenuAdapter(context: Context) : BaseAdapter() {
 
         holder.menuImg.setImageResource(mThumbIds[position])
         holder.menuImg.setAlpha(alpha)
-        holder.menuLabel.text = menuLabels[position]
+        holder.menuLabel.setText(menuLabels[position])
 
         return view
     }
@@ -58,10 +58,10 @@ class MainMenuAdapter(context: Context) : BaseAdapter() {
     )
 
     private val menuLabels = arrayOf(
-        "AllApps",
-        "SystemApps",
-        "NonSystemApps",
-        "About"
+        R.string.all_apps,
+        R.string.system_apps,
+        R.string.nonsystem_apps,
+        R.string.about
     )
 
     init {
