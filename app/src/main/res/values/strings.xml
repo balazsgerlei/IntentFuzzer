@@ -2,8 +2,6 @@
 <resources>
 
     <string name="app_name">IntentFuzzer</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="menu_settings">Settings</string>
     <string name="all_apps">All Apps</string>
     <string name="system_apps">System Apps</string>
     <string name="system_apps_only">System Apps Only</string>
