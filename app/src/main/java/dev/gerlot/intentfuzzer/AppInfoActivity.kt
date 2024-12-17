@@ -1,10 +1,10 @@
 package dev.gerlot.intentfuzzer
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.os.Message
 import android.view.MenuItem
 import android.view.View
@@ -29,8 +29,7 @@ class AppInfoActivity : AppCompatActivity() {
 
     private var mGetPkgInfoThread: Thread? = null
 
-    private val mHandler: Handler = @SuppressLint("HandlerLeak")
-    object : Handler() {
+    private val mHandler: Handler = object : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {
             when (msg.what) {
                 Utils.MSG_DONE -> {
@@ -53,7 +52,6 @@ class AppInfoActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setProgressBarVisibility(true)
         setContentView(R.layout.package_infos)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
