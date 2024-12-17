@@ -11,6 +11,7 @@
     <string name="nonsystem_apps_only">Non-System Apps Only</string>
     <string name="about">About</string>
     <string name="components">Components</string>
+    <string name="add_non_null_action">Add Non-null Action</string>
     <string name="fuzz_all_null">Null Fuzz All</string>
     <string name="fuzz_all_se">Serialize Fuzz All</string>
     <string name="pkginfo_null">No Package Information Found!</string>

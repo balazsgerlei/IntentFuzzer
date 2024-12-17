@@ -23,6 +23,15 @@
         android:layout_height="0dp"
         android:layout_weight="1"/>
 
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/add_non_null_action"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/add_non_null_action"/>
+
     <LinearLayout
         style="?android:attr/buttonBarStyle"
         android:layout_width="fill_parent"
@@ -30,7 +39,7 @@
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/fuzz_all_null"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -41,7 +50,7 @@
             android:visibility="gone"
             tools:visibility="visible"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/fuzz_all_se"
             android:layout_width="0dp"
             android:layout_height="match_parent"

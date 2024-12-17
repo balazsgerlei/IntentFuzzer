@@ -13,6 +13,7 @@ import android.widget.Button
 import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SwitchCompat
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
 import dev.gerlot.intentfuzzer.util.AppInfo
@@ -26,6 +27,7 @@ class FuzzerActivity : AppCompatActivity() {
     private var currentType = cmpTypes[0]
     private var typeGroup: MaterialButtonToggleGroup? = null
     private var cmpListView: ListView? = null
+    private var addNonNullActionSwitch: SwitchCompat? = null
     private var fuzzAllNullBtn: Button? = null
     private var fuzzAllSeBtn: Button? = null
 
@@ -70,6 +72,7 @@ class FuzzerActivity : AppCompatActivity() {
     private fun initView() {
         typeGroup = findViewById(R.id.type_select)
         cmpListView = findViewById(R.id.cmp_listview)
+        addNonNullActionSwitch = findViewById(R.id.add_non_null_action)
         fuzzAllNullBtn = findViewById(R.id.fuzz_all_null)
         fuzzAllSeBtn = findViewById(R.id.fuzz_all_se)
 
@@ -77,6 +80,9 @@ class FuzzerActivity : AppCompatActivity() {
             OnItemClickListener { _, _, position, _ ->
                 cmpAdapter?.getItem(position)?.let { componentInfo ->
                     val intentToSend = Intent()
+                    if (addNonNullActionSwitch?.isChecked == true) {
+                        intentToSend.action = "android.intent.action.MAIN"
+                    }
                     var targetComponentName: ComponentName? = null
                     for (component in components) {
                         if (component.name == componentInfo.name) {
@@ -100,6 +106,9 @@ class FuzzerActivity : AppCompatActivity() {
             OnItemLongClickListener { _, _, position, _ ->
                 cmpAdapter?.getItem(position)?.let { componentInfo ->
                     val intentToSend = Intent()
+                    if (addNonNullActionSwitch?.isChecked == true) {
+                        intentToSend.action = "android.intent.action.MAIN"
+                    }
                     var targetComponentName: ComponentName? = null
                     for (component in components) {
                         if (component.name == componentInfo.name) {
