@@ -9,6 +9,7 @@ import android.view.Menu
 import android.view.View
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.GridView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import dev.gerlot.intentfuzzer.util.Utils
 
@@ -39,9 +40,10 @@ class MainActivity : AppCompatActivity() {
                     }.also {
                         startActivity(it)
                     }
-                    Utils.ABOUT -> Dialog(this@MainActivity, R.style.dialog).apply {
-                        setContentView(R.layout.dialog)
-                    }.show()
+                    Utils.ABOUT -> AlertDialog.Builder(this@MainActivity)
+                        .setTitle(R.string.about)
+                        .setMessage(R.string.about_message)
+                        .show()
                 }
             }
     }
