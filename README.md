@@ -4,8 +4,8 @@
 [![last commit](https://img.shields.io/github/last-commit/balazsgerlei/IntentFuzzer?color=018786)](https://github.com/balazsgerlei/IntentFuzzer/commits/main)
 [![build](https://img.shields.io/github/actions/workflow/status/balazsgerlei/IntentFuzzer/build.yml?branch=main&event=push)](https://github.com/balazsgerlei/IntentFuzzer/actions/workflows/build.yml)
 
-IntentFuzzer is inspired by the tool (https://www.isecpartners.com/tools/mobile-security/intent-fuzzer.aspx)
-developed by iSECpartners (www.isecpartners.com).
+IntentFuzzer is inspired by [this tool](https://www.isecpartners.com/tools/mobile-security/intent-fuzzer.aspx)
+developed by [iSECpartners](www.isecpartners.com).
 
 You can choose an application, then either fuzz a single component (Activity, Broadcast Receiver or Service) or all components.
 
