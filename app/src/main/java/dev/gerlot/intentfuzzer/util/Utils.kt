@@ -38,12 +38,13 @@ object Utils {
 
         for (i in packages.indices) {
             val packageInfo = packages[i]
+            val applicationInfoFlags = packageInfo.applicationInfo?.flags
             if (type == SYSTEM_APPS) {
-                if ((packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM) == 1) {
+                if (applicationInfoFlags != null && (applicationInfoFlags and ApplicationInfo.FLAG_SYSTEM) == 1) {
                     pkgInfoList.add(fillAppInfo(packageInfo, context))
                 }
             } else if (type == NONSYSTEM_APPS) {
-                if ((packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM) == 0) {
+                if (applicationInfoFlags != null && (applicationInfoFlags and ApplicationInfo.FLAG_SYSTEM) == 0) {
                     pkgInfoList.add(fillAppInfo(packageInfo, context))
                 }
             } else {
@@ -58,9 +59,9 @@ object Utils {
     private fun fillAppInfo(packageInfo: PackageInfo, context: Context): AppInfo {
         val appInfo = AppInfo()
         appInfo.packageInfo = packageInfo
-        appInfo.appName = packageInfo.applicationInfo.loadLabel(context.packageManager).toString()
+        appInfo.appName = packageInfo.applicationInfo?.loadLabel(context.packageManager).toString()
         appInfo.packageName = packageInfo.packageName
-        appInfo.appIcon = packageInfo.applicationInfo.loadIcon(context.packageManager).toBitmap()
+        appInfo.appIcon = packageInfo.applicationInfo?.loadIcon(context.packageManager)?.toBitmap()
 
         return appInfo
     }
