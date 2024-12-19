@@ -1,5 +1,6 @@
 package dev.gerlot.intentfuzzer.util
 
+import android.content.ComponentName
 import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
@@ -57,11 +58,20 @@ object Utils {
 
 
     private fun fillAppInfo(packageInfo: PackageInfo, context: Context): AppInfo {
-        val appInfo = AppInfo()
-        appInfo.packageInfo = packageInfo
-        appInfo.appName = packageInfo.applicationInfo?.loadLabel(context.packageManager).toString()
-        appInfo.packageName = packageInfo.packageName
-        appInfo.appIcon = packageInfo.applicationInfo?.loadIcon(context.packageManager)?.toBitmap()
+        val appInfo = AppInfo(
+            appName = packageInfo.applicationInfo?.loadLabel(context.packageManager).toString(),
+            packageName = packageInfo.packageName,
+            appIcon = packageInfo.applicationInfo?.loadIcon(context.packageManager)?.toBitmap(),
+            activities = packageInfo.activities?.map {
+                ComponentName(it.packageName, it.name)
+            },
+            receivers = packageInfo.receivers?.map {
+                ComponentName(it.packageName, it.name)
+            },
+            services = packageInfo.services?.map {
+                ComponentName(it.packageName, it.name)
+            },
+        )
 
         return appInfo
     }

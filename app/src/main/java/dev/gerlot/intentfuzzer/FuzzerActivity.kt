@@ -35,7 +35,7 @@ class FuzzerActivity : AppCompatActivity() {
 
     private val cmpNames = ArrayList<String>()
     private var components: List<ComponentInfo> = emptyList()
-    private var pkgInfo: PackageInfo? = null
+    private var appInfo: AppInfo? = null
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,16 +43,18 @@ class FuzzerActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val appInfo: AppInfo? = if (intent.hasExtra(Utils.APPINFO_KEY)) {
+        appInfo = if (intent.hasExtra(Utils.APPINFO_KEY)) {
             intent.getParcelableExtra(Utils.APPINFO_KEY)
         } else null
 
-        if (appInfo != null) {
-            title = appInfo.appName
-            pkgInfo = appInfo.packageInfo
-        } else {
-            Toast.makeText(this, R.string.pkginfo_null, Toast.LENGTH_LONG).show()
-            return
+        when(val appInfo = appInfo) {
+            null -> {
+                Toast.makeText(this, R.string.pkginfo_null, Toast.LENGTH_LONG).show()
+                return
+            }
+            else -> {
+                title = appInfo.appName
+            }
         }
 
         initView()
@@ -211,15 +213,15 @@ class FuzzerActivity : AppCompatActivity() {
         val cmpsFound = ArrayList<ComponentInfo>()
         val type = ipcNamesToTypes[currentType]
         when (type) {
-            Utils.ACTIVITIES -> pkgInfo!!.activities
-            Utils.RECEIVERS -> pkgInfo!!.receivers
-            Utils.SERVICES -> pkgInfo!!.services
-            else -> pkgInfo!!.activities
+            Utils.ACTIVITIES -> appInfo!!.activities
+            Utils.RECEIVERS -> appInfo!!.receivers
+            Utils.SERVICES -> appInfo!!.services
+            else -> appInfo!!.activities
         }?.forEach {
             cmpsFound.add(
                 ComponentInfo(
                     type = type!!,
-                    name = ComponentName(pkgInfo!!.packageName, it.name)
+                    name = it
                 )
             )
         }
