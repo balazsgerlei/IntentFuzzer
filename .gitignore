@@ -1,5 +1,5 @@
-# Created by https://www.toptal.com/developers/gitignore/api/macos,kotlin,java,android,gradle,androidstudio,intellij
-# Edit at https://www.toptal.com/developers/gitignore?templates=macos,kotlin,java,android,gradle,androidstudio,intellij
+# Created by https://www.toptal.com/developers/gitignore/api/macos,windows,kotlin,java,android,gradle,androidstudio,intellij
+# Edit at https://www.toptal.com/developers/gitignore?templates=macos,windows,kotlin,java,android,gradle,androidstudio,intellij
 
 ### Android ###
 # Gradle files
@@ -21,6 +21,7 @@ output.json
 
 # IntelliJ
 *.iml
+# .idea/
 misc.xml
 deploymentTargetDropDown.xml
 render.experimental.xml
@@ -225,6 +226,32 @@ Temporary Items
 # iCloud generated files
 *.icloud
 
+### Windows ###
+# Windows thumbnail cache files
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+
+# Dump file
+*.stackdump
+
+# Folder config file
+[Dd]esktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+
+# Windows shortcuts
+*.lnk
+
 ### Gradle ###
 .gradle
 **/build/
@@ -335,6 +362,7 @@ obj/
 .idea/deploymentTargetDropDown.xml
 .idea/deploymentTargetSelector.xml
 .idea/other.xml
+.idea/runConfigurations.xml
 
 # Legacy Eclipse project files
 .cproject
@@ -361,4 +389,4 @@ obj/
 
 !/gradle/wrapper/gradle-wrapper.jar
 
-# End of https://www.toptal.com/developers/gitignore/api/macos,kotlin,java,android,gradle,androidstudio,intellij
+# End of https://www.toptal.com/developers/gitignore/api/macos,windows,kotlin,java,android,gradle,androidstudio,intellij
