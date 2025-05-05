@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Gradle Wrapper Validation
-        uses: gradle/actions/wrapper-validation@v3
+        uses: gradle/actions/wrapper-validation@v4
 
   build:
     runs-on: ubuntu-latest
@@ -31,10 +31,8 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      # Configure Gradle for optimal use in GitHub Actions, including caching of downloaded dependencies.
-      # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
+        uses: gradle/actions/setup-gradle@v4
 
       - name: Build
         run: ./gradlew check assemble
