@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "dev.gerlot.intentfuzzer"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "dev.gerlot.intentfuzzer"
         minSdk = 21
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
