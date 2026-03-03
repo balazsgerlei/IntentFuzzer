@@ -363,6 +363,9 @@ obj/
 .idea/deploymentTargetSelector.xml
 .idea/other.xml
 .idea/runConfigurations.xml
+.idea/deviceManager.xml
+.idea/markdown.xml
+.idea/kotlinc.xml
 
 # Legacy Eclipse project files
 .cproject
